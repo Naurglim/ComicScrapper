@@ -7,7 +7,7 @@ COMIC_SITE_BASE_URL = "https://comixextra.com/"
 COMIC_SITE_SEARCH = "search?keyword="
 COMIC_SITE_SEARCH_URL = COMIC_SITE_BASE_URL + COMIC_SITE_SEARCH
 COMIC_SITE_SEARCH_SEPARATOR = "+"
-FOLDER = "comics"
+FOLDER = "C:/Comics"
 
 
 def download_page(url, save_as):
@@ -78,39 +78,3 @@ for title in title_list:
         file_path = os.path.join(FOLDER, title_folder, issue_folder)
         print("Downloading: " + issue['url'])
         download_issue(issue['url'], file_path)
-
-
-""" 
-
-comic_series_url = "critical-role-2017/"
-comic_book_url = "issue-6/"
-
-comic_book_full_url = os.path.join(COMIC_SITE_BASE_URL, comic_series_url, comic_book_url,'full')
-comic_book_full_path = os.path.join(FOLDER, comic_series_url, comic_book_url)
-
-comic_html = requests.get(comic_book_full_url)
-soup = BeautifulSoup(comic_html.content, "html.parser")
-
-chapter_container = soup.find_all("div", class_="chapter-container")
-for chapter in chapter_container:
-    pages = chapter.find_all("img")
-    i = 1
-    for page in pages:
-        page_name = str(i).zfill(2)+'.jpg'
-        page_filename = os.path.join(comic_book_full_path, page_name)
-        page_url = page["src"].strip()
-        download_page(page_url, page_filename)
-        i += 1
- """
-
-""" repository_url = "https://readcomicsonline.ru/uploads/manga"
-comic_series = "critical-role-2017/chapters"
-comic_book = "1"
-comic_page = "01.jpg"
-
-full_url = os.path.join(repository_url, comic_series, comic_book, comic_page)
-print(full_url)
-
-img_data = requests.get(full_url).content
-with open('image_name.jpg', 'wb') as handler:
-    handler.write(img_data) """
