@@ -3,7 +3,7 @@ import pathlib
 import os
 import shutil
 
-FOLDER = "C:/Comics/"
+FOLDER = "C:/Comics/_build/"
 
 
 def get_cbz_filename(ruta_original):

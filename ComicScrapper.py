@@ -3,11 +3,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-COMIC_SITE_BASE_URL = "https://comixextra.com/"
-COMIC_SITE_SEARCH = "search?keyword="
+COMIC_SITE_BASE_URL = "https://azcomix.me/"
+COMIC_SITE_SEARCH = "advanced-search?key="
 COMIC_SITE_SEARCH_URL = COMIC_SITE_BASE_URL + COMIC_SITE_SEARCH
 COMIC_SITE_SEARCH_SEPARATOR = "+"
-FOLDER = "C:/Comics"
+FOLDER = "C:/Comics/_build"
 
 
 def download_page(url, save_as):
@@ -26,9 +26,9 @@ def get_keywords_result(search):
 
     data = requests.get(url)
     soup = BeautifulSoup(data.content, "html.parser")
-    result_list = soup.find_all("div", class_="cartoon-box")
+    result_list = soup.find_all("div", class_="dl-box")
     for results in result_list:
-        title_details = results.select_one("div.mb-right > h3 > a")
+        title_details = results.select_one("div.dlb-right > a")
         value = {
             "title": title_details.text.strip(),
             "url": title_details['href'].strip()
@@ -41,8 +41,8 @@ def get_title_issues(url):
     res = []
     data = requests.get(url)
     soup = BeautifulSoup(data.content, "html.parser")
-    episode_list = soup.find("div", class_="episode-list")
-    issues = episode_list.select("div > table.table > tbody > tr > td > a")
+    episode_list = soup.find("ul", class_="basic-list")
+    issues = episode_list.select("a.ch-name")
     for issue in issues:
         value = {
             "title": issue.text.strip(),
@@ -68,7 +68,7 @@ def download_issue(comic_book_url, comic_book_full_path):
     print('compressing: ' + comic_book_full_path)
 
 
-title_list = get_keywords_result('critical role')
+title_list = get_keywords_result('white sand')
 
 for title in title_list:
     title_folder = os.path.basename(os.path.normpath(title['url']))
